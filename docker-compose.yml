@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+  selenium:
+    image: selenium/standalone-chrome:3.141
+    expose:
+      - "4444"
+
+  rails:
+    build: .
+    tty: true
+    stdin_open: true
+    volumes:
+      - ".:/rails"
+    ports:
+      - "3333:3000"
+    environment:
+      TZ: Asia/Tokyo
+      SELENIUM_REMOTE_HOST: selenium
+    links:
+      - selenium

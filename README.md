@@ -26,3 +26,16 @@ more about Git, I recommend the free resources [Git Immersion] or [Try Git].
 [Everyday Rails Testing with RSpec]: https://leanpub.com/everydayrailsrspec
 [Git Immersion]: http://gitimmersion.com/
 [Try Git]: http://www.codeschool.com/courses/try-git
+
+## Docker
+
+```sh
+# Build Docker image
+docker build -t 'tama-rspec:1.0.0' .
+
+# Rails server container
+docker run -v (pwd):/rails -p 3333:3000 --name tama-rspec -it tama-rspec:1.0.0 /bin/bash
+
+# Other contaienr
+docker exec -it tama-rspec /bin/bash
+```

@@ -34,7 +34,23 @@ RSpec.describe User, type: :model do
   end
 
   # 重複したメールアドレスなら無効な状態であること
-  it "is invalid with a duplicate email address"
+  it "is invalid with a duplicate email address" do
+    email = 'test@exmaple.com'
+    User.create(
+      first_name: "Aaron",
+      last_name:  "Sumner",
+      email:      email,
+      password:   "dottle-nouveau-pavilion-tights-furze"
+    )
+    user = User.new(
+      first_name: "Jane",
+      last_name:  "Tester",
+      email:      email,
+      password:   "dottle-nouveau-pavilion-tights-furze"
+    )
+    user.valid?
+    expect(user.errors[:email]).to include("has already been taken")
+  end
 
   # ユーザーのフルネームを文字列として返すこと
   it "returns a user's full name as a string"

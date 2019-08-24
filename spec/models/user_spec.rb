@@ -20,7 +20,11 @@ RSpec.describe User, type: :model do
   end
 
   # 姓がなければ無効な状態であること
-  it "is invalid without a last name"
+  it "is invalid without a last name" do
+    user = User.new(last_name: "")
+    user.valid?
+    expect(user.errors[:last_name]).to include("can't be blank")
+  end
 
   # メールアドレスがなければ無効な状態であること
   it "is invalid without an email address"

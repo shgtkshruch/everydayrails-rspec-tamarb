@@ -11,6 +11,22 @@ RSpec.describe Note, type: :model do
     @project = @user.projects.create(name: "Test Project")
   end
 
+  # ユーザー、プロジェクト、メッセージがあれば有効な状態であること
+  it "is valid with a user, project, and message" do
+    note = @project.notes.create(
+      message: 'valid message',
+      user: @user
+    )
+    expect(note).to be_valid
+  end
+
+  # メッセージがなければ無効な状態であること
+  it "is invalid without a message" do
+    note = @project.notes.create(user: @user)
+    note.valid?
+    expect(note.errors[:message]).to include("can't be blank")
+  end
+
   # 文字列に一致するメッセージを検索する
   describe "search message for a term" do
 

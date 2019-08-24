@@ -1,6 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Note, type: :model do
+  before do
+    @user = User.create(
+      first_name: "Aaron",
+      last_name:  "Sumner",
+      email:      "tester@example.com",
+      password:   "dottle-nouveau-pavilion-tights-furze"
+    )
+    @project = @user.projects.create(name: "Test Project")
+  end
+
   # 文字列に一致するメッセージを検索する
   describe "search message for a term" do
 
@@ -8,28 +18,20 @@ RSpec.describe Note, type: :model do
     context "when a match is found" do
       # 検索文字列に一致するメモを返すこと
       it "returns notes that match the search term" do
-        user = User.create(
-          first_name: "Aaron",
-          last_name:  "Sumner",
-          email:      "tester@example.com",
-          password:   "dottle-nouveau-pavilion-tights-furze"
-        )
 
-        project = user.projects.create(name: "Test Project")
-
-        note1 = project.notes.create(
+        note1 = @project.notes.create(
           message: 'This is the first note.',
-          user: user
+          user: @user
         )
 
-        note2 = project.notes.create(
+        note2 = @project.notes.create(
           message: 'This is the second note.',
-          user: user
+          user: @user
         )
 
-        note3 = project.notes.create(
+        note3 = @project.notes.create(
           message: 'First, preheat the oven..',
-          user: user
+          user: @user
         )
 
         expect(Note.search("first")).to include(note1, note3)
@@ -41,28 +43,19 @@ RSpec.describe Note, type: :model do
     context "when no match is found" do
       # 検索結果が1件も見つからなければ空のコレクションを返すこと
       it "returns an empty collection when no results are found" do
-        user = User.create(
-          first_name: "Aaron",
-          last_name:  "Sumner",
-          email:      "tester@example.com",
-          password:   "dottle-nouveau-pavilion-tights-furze"
-        )
-
-        project = user.projects.create(name: "Test Project")
-
-        note1 = project.notes.create(
+        note1 = @project.notes.create(
           message: 'This is the first note.',
-          user: user
+          user: @user
         )
 
-        note2 = project.notes.create(
+        note2 = @project.notes.create(
           message: 'This is the second note.',
-          user: user
+          user: @user
         )
 
-        note3 = project.notes.create(
+        note3 = @project.notes.create(
           message: 'First, preheat the oven..',
-          user: user
+          user: @user
         )
 
         expect(Note.search("tamarb")).to be_empty
